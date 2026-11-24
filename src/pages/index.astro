@@ -7,7 +7,7 @@ import { getEntries, formatDate } from '../data/journal';
 
 import handLight from '../assets/photos/hand-light.jpg';
 import jasmine from '../assets/photos/jasmine.jpg';
-import portrait from '../assets/photos/portrait-field.jpg';
+import portrait from '../assets/photos/portrait-mirror.jpg';
 import nightRoad from '../assets/photos/night-road.jpg';
 import roadSun from '../assets/photos/road-sun.jpg';
 
@@ -88,7 +88,7 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   <section id="about" class="wrap about">
     <div class="about-media">
       <figure class="iris">
-        <Picture src={portrait} formats={['avif', 'webp']} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt="Narada standing in a paddy field at dusk, face turned up to the sky, eyes closed" />
+        <Picture src={portrait} formats={['avif', 'webp']} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt="Narada taking a mirror selfie, phone covering the lower half of his face" />
       </figure>
       <figure class="inset">
         <Picture src={jasmine} formats={['avif', 'webp']} widths={[300, 500]} sizes="220px" alt="A single white jasmine flower with raindrops on its petals" />
@@ -284,7 +284,7 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   .iris { position: relative; margin: 0; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--asphalt); }
   .iris :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15); }
   .about-media { position: relative; margin-bottom: 36px; }
-  .iris :global(img) { object-position: 60% 50%; }
+  .iris :global(img) { object-position: 50% 30%; }
   .inset {
     position: absolute; right: -28px; bottom: -36px; width: 40%; aspect-ratio: 3 / 4; margin: 0; border-radius: 16px; overflow: hidden;
     border: 6px solid var(--night); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65); transform: rotate(3deg);
