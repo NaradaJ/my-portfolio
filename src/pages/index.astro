@@ -330,16 +330,16 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   /* Sun ray: a warm beam from above, with a pulse of light travelling down it. */
   .road { --ray-x: 50%; }
   .road::before {
-    content: ''; position: absolute; left: var(--ray-x); top: -80px; bottom: -40px; width: 2px; margin-left: -1px; border-radius: 2px;
+    content: ''; position: absolute; left: var(--ray-x); top: 0; bottom: -40px; width: 2px; margin-left: -1px; border-radius: 2px;
     background:
       linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.95), transparent) 0 -20% / 100% 160px no-repeat,
-      linear-gradient(180deg, rgba(255, 250, 235, 0.95), rgba(255, 236, 200, 0.6) 35%, rgba(240, 136, 62, 0.3) 80%, transparent);
+      linear-gradient(180deg, transparent, rgba(255, 250, 235, 0.95) 6%, rgba(255, 236, 200, 0.6) 35%, rgba(240, 136, 62, 0.3) 80%, transparent);
     box-shadow: 0 0 10px 1px rgba(255, 236, 200, 0.45), 0 0 36px 6px rgba(255, 236, 200, 0.12);
     transform-origin: top;
     animation: photon 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
   .road::after {
-    content: ''; position: absolute; left: var(--ray-x); top: -80px; bottom: 0; width: 220px; margin-left: -110px; z-index: -1; pointer-events: none;
+    content: ''; position: absolute; left: var(--ray-x); top: 0; bottom: 0; width: 220px; margin-left: -110px; z-index: -1; pointer-events: none;
     background: radial-gradient(ellipse 50% 85% at 50% 0%, rgba(255, 236, 200, 0.14), rgba(240, 136, 62, 0.04) 55%, transparent 75%);
     filter: blur(6px);
     animation: shimmer 6s ease-in-out infinite;
