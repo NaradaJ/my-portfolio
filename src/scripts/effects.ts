@@ -57,22 +57,38 @@ function initTilt() {
   });
 }
 
-/* Sand: the About photo settles from scattered grains when it scrolls into view. */
+/* Sand: the About photo settles from scattered grains every time it scrolls into view. */
 function initSand() {
   const fig = document.querySelector<HTMLElement>('[data-sand]');
   const anim = document.querySelector<SVGAnimateElement>('#sand animate');
   if (!fig || !anim || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-  fig.classList.add('sand-wait');
-  const io = new IntersectionObserver((entries) => {
-    if (!entries.some((e) => e.isIntersecting)) return;
-    io.disconnect();
-    fig.classList.remove('sand-wait');
+
+  let settle = 0;
+  const play = () => {
+    window.clearTimeout(settle);
+    fig.classList.remove('sanding', 'sand-wait');
+    void fig.offsetWidth; // restart the CSS fade
     fig.classList.add('sanding');
     anim.beginElement();
     // Drop the filter once settled so the photo stays crisp and cheap to render.
-    window.setTimeout(() => fig.classList.remove('sanding'), 2600);
-  }, { threshold: 0.35 });
-  io.observe(fig);
+    settle = window.setTimeout(() => fig.classList.remove('sanding'), 2600);
+  };
+  const reset = () => {
+    window.clearTimeout(settle);
+    fig.classList.remove('sanding');
+    fig.classList.add('sand-wait');
+  };
+
+  fig.classList.add('sand-wait');
+  new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.intersectionRatio >= 0.35) play();
+        else if (!e.isIntersecting) reset(); // fully out of view: ready to replay
+      }
+    },
+    { threshold: [0, 0.35] },
+  ).observe(fig);
 }
 
 initHero();
