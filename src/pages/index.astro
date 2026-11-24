@@ -7,6 +7,7 @@ import { getEntries, formatDate } from '../data/journal';
 
 import handLight from '../assets/photos/hand-light.jpg';
 import jasmine from '../assets/photos/jasmine.jpg';
+import portrait from '../assets/photos/portrait-field.jpg';
 import nightRoad from '../assets/photos/night-road.jpg';
 import roadSun from '../assets/photos/road-sun.jpg';
 
@@ -22,7 +23,7 @@ const person = {
   '@id': `${homeUrl}#person`,
   name: profile.name,
   url: homeUrl,
-  image: new URL(href('/og.jpg'), site).href,
+  image: new URL(href('/narada.jpg'), site).href,
   jobTitle: profile.jobTitle,
   description: profile.description,
   worksFor: { '@type': 'Organization', name: profile.employer },
@@ -85,10 +86,15 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 
   <!-- ABOUT -->
   <section id="about" class="wrap about">
-    <figure class="iris">
-      <Picture src={jasmine} formats={['avif', 'webp']} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt="A single white jasmine flower with raindrops on its petals" />
-      <figcaption>Jasmine after rain</figcaption>
-    </figure>
+    <div class="about-media">
+      <figure class="iris">
+        <Picture src={portrait} formats={['avif', 'webp']} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt="Narada standing in a paddy field at dusk, face turned up to the sky, eyes closed" />
+      </figure>
+      <figure class="inset">
+        <Picture src={jasmine} formats={['avif', 'webp']} widths={[300, 500]} sizes="220px" alt="A single white jasmine flower with raindrops on its petals" />
+        <figcaption>The raindrop</figcaption>
+      </figure>
+    </div>
     <div class="about-copy reveal">
       <p class="eyebrow">01 — How I see</p>
       <h2>{profile.about.title}</h2>
@@ -277,7 +283,18 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   .about { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(40px, 6vw, 72px); align-items: center; padding-block: 120px 80px; scroll-margin-top: 40px; }
   .iris { position: relative; margin: 0; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--asphalt); }
   .iris :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15); }
-  .iris figcaption, .shot figcaption { position: absolute; left: 18px; bottom: 16px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(7, 8, 10, 0.65); padding: 6px 10px; border-radius: 6px; }
+  .about-media { position: relative; margin-bottom: 36px; }
+  .iris :global(img) { object-position: 60% 50%; }
+  .inset {
+    position: absolute; right: -28px; bottom: -36px; width: 40%; aspect-ratio: 3 / 4; margin: 0; border-radius: 16px; overflow: hidden;
+    border: 6px solid var(--night); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65); transform: rotate(3deg);
+    transition: transform 0.6s var(--ease);
+  }
+  .inset:hover { transform: rotate(0deg) scale(1.04); }
+  .inset :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15); }
+  .inset figcaption { left: 10px; bottom: 10px; font-size: 10px; padding: 4px 8px; }
+  @media (max-width: 760px) { .inset { right: 10px; bottom: -28px; width: 42%; } }
+  .iris figcaption, .inset figcaption, .shot figcaption { position: absolute; left: 18px; bottom: 16px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(7, 8, 10, 0.65); padding: 6px 10px; border-radius: 6px; }
   .about-copy { display: flex; flex-direction: column; gap: 22px; }
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 8px 0 0; padding-top: 18px; border-top: 1px solid var(--wire); }
   .stats dt { font-family: var(--serif); font-size: 1.9rem; font-weight: 600; }

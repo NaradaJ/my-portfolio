@@ -55,7 +55,7 @@ const schema = [
   .prose { padding-top: 24px; font-size: 1.1rem; }
   .prose :global(p), .prose :global(li) { color: var(--fog-2); max-width: 66ch; margin: 0 0 1.2em; }
   .prose :global(h2) { font-size: 1.8rem; margin: 40px 0 14px; }
-  .prose :global(img) { border-radius: 14px; margin: 24px 0; }
+  .prose :global(img) { display: block; width: min(100%, 440px); height: auto; border-radius: 16px; margin: 32px 0; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55); }
   .prose :global(blockquote) { margin: 24px 0; padding-left: 20px; border-left: 2px solid var(--ember); font-family: var(--serif); font-size: 1.3rem; color: var(--moon); }
   .prose :global(a) { color: var(--light); text-underline-offset: 4px; }
 </style>

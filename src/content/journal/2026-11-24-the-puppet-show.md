@@ -25,6 +25,8 @@ For example, I get angry when my girlfriend blames me again and again without te
 
 Change how you're built. Going to the gym does that. So does what you eat, the medicine you take, even your coffee. At work, it's learning new skills and sharpening them. Two years ago, code looked like Egyptian hieroglyphs to me. Now I can read it.
 
+![Narada in a gym mirror, holding his phone, looking down at his arm](../../assets/photos/gym.jpg)
+
 ## The cheat code
 
 Use the first option to power the second. Once you can see which strings move you, you can start changing how you're built.
