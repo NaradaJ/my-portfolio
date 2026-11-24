@@ -1,0 +1,59 @@
+---
+import { Picture } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { profile, href } from '../../data/site';
+
+const photos = (await getCollection('photos')).sort((a, b) => a.data.order - b.data.order);
+const site = Astro.site!;
+const homeUrl = new URL(href('/'), site).href;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `Photography by ${profile.name}`,
+    url: new URL(href('/photos/'), site).href,
+    author: { '@type': 'Person', '@id': `${homeUrl}#person`, name: profile.name },
+  },
+];
+---
+<Base title="Photography" description={`Mobile photography by ${profile.name}: light, roads, rain and small details, mostly in black and white.`} schema={schema} solidHeader>
+  <section class="wrap gallery-head">
+    <p class="eyebrow">Mobile photography</p>
+    <h1>Chasing the light.</h1>
+    <p class="lede">Shot and edited on my phone. Mostly black and white, because then the light is the subject. Hover a photo to bring its colour back.</p>
+  </section>
+
+  <section class="wrap gallery" aria-label="Photos">
+    {photos.map((p, i) => (
+      <figure class="g-item">
+        <Picture src={p.data.image} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" alt={p.data.alt} loading={i < 3 ? 'eager' : 'lazy'} />
+        <figcaption>
+          <strong>{p.data.title}</strong>
+          {p.data.caption && <span>{p.data.caption}</span>}
+        </figcaption>
+      </figure>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .gallery-head { display: flex; flex-direction: column; gap: 18px; padding-block: 72px 48px; }
+  .gallery-head h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1.02; }
+  .gallery { columns: 3 300px; column-gap: 20px; padding-bottom: 120px; }
+  .g-item { position: relative; margin: 0 0 20px; break-inside: avoid; border-radius: 16px; overflow: hidden; background: var(--asphalt); }
+  .g-item :global(img) { width: 100%; height: auto; filter: grayscale(1) contrast(1.1) brightness(0.85); transition: filter 0.7s ease, transform 1.2s var(--ease); }
+  .g-item:hover :global(img) { filter: none; transform: scale(1.03); }
+  .g-item figcaption {
+    position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; gap: 2px; padding: 48px 18px 16px;
+    background: linear-gradient(180deg, transparent, rgba(7, 8, 10, 0.88)); font-size: 14px;
+    opacity: 0; transform: translateY(8px); transition: opacity 0.4s, transform 0.4s;
+  }
+  .g-item figcaption span { color: var(--fog-3); }
+  .g-item:hover figcaption, .g-item:focus-within figcaption { opacity: 1; transform: none; }
+  @media (hover: none) {
+    .g-item figcaption { opacity: 1; transform: none; }
+    .g-item :global(img) { filter: grayscale(0.4) brightness(0.9); }
+  }
+</style>

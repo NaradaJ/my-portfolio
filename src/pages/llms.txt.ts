@@ -11,7 +11,7 @@ export const GET: APIRoute = async ({ site }) => {
 
 > ${profile.description}
 
-${profile.name} is a ${profile.jobTitle} at ${profile.employer.name}, based in ${profile.location.label}. He works on CMS publishing, website QA, SEO and accessibility for global clients, and builds software in C#/.NET and Python.
+${profile.name} is a ${profile.jobTitle} at ${profile.employer}, based in ${profile.location.label}. He works on CMS publishing, website QA, SEO and accessibility for global clients, and builds software in C#/.NET and Python.
 
 ## Career
 ${journey.map((j) => `- ${j.when}: ${j.title}. ${j.desc}`).join('\n')}
@@ -21,6 +21,9 @@ ${profile.education.map((e) => `- ${e.name}: ${e.detail}`).join('\n')}
 
 ## Skills
 ${profile.knowsAbout.join(', ')}
+
+## Hobbies
+Mobile photography (${abs('/photos/')}) and journaling (${abs('/journal/')}).
 
 ## Projects
 ${work.map((w) => `- [${w.data.title}](${abs(`/work/${w.id}/`)}): ${w.data.summary}`).join('\n')}

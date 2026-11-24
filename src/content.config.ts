@@ -17,4 +17,27 @@ const work = defineCollection({
   }),
 });
 
-export const collections = { work };
+const journal = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    summary: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const photos = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/photos' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      image: image(),
+      alt: z.string(),
+      caption: z.string().optional(),
+      featured: z.boolean().default(false),
+      order: z.number().default(100),
+    }),
+});
+
+export const collections = { work, journal, photos };

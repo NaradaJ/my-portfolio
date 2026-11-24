@@ -3,15 +3,16 @@ import { Picture, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { profile, journey, faq, href } from '../data/site';
+import { getEntries, formatDate } from '../data/journal';
 
 import handLight from '../assets/photos/hand-light.jpg';
 import jasmine from '../assets/photos/jasmine.jpg';
 import nightRoad from '../assets/photos/night-road.jpg';
-import sunsetRider from '../assets/photos/sunset-rider.jpg';
-import fern from '../assets/photos/fern.jpg';
 import roadSun from '../assets/photos/road-sun.jpg';
 
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const featured = (await getCollection('photos', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+const entries = (await getEntries()).slice(0, 3);
 const roadTexture = await getImage({ src: roadSun, width: 1400, format: 'webp' });
 const site = Astro.site!;
 const homeUrl = new URL(href('/'), site).href;
@@ -24,7 +25,7 @@ const person = {
   image: new URL(href('/og.jpg'), site).href,
   jobTitle: profile.jobTitle,
   description: profile.description,
-  worksFor: { '@type': 'Organization', name: profile.employer.name, url: profile.employer.url },
+  worksFor: { '@type': 'Organization', name: profile.employer },
   alumniOf: profile.education.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.name })),
   address: { '@type': 'PostalAddress', addressLocality: profile.location.city, addressCountry: profile.location.country },
   knowsAbout: profile.knowsAbout,
@@ -60,9 +61,9 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
     <svg class="grain" aria-hidden="true"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /></filter><rect width="100%" height="100%" filter="url(#grain)" /></svg>
 
     <div class="wrap hero-copy">
-      <p class="hero-kicker"><span aria-hidden="true"></span>Web publisher · QA · Accessibility · Code</p>
-      <h1 id="hero-title">Good websites don’t happen by <em class="glow">accident.</em></h1>
-      <p class="lede">I’m Narada, a Web Publisher at Acuity Knowledge Partners and a BIT undergraduate at the University of Moratuwa. I check every page, link and detail, and I’m growing from content into code.</p>
+      <p class="hero-kicker"><span aria-hidden="true"></span>{profile.hero.kicker}</p>
+      <h1 id="hero-title">{profile.hero.headline} <em class="glow">{profile.hero.emphasis}</em></h1>
+      <p class="lede">{profile.hero.intro}</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#work">See my work <Fragment set:html={arrow} /></a>
         <a class="btn btn-ghost" href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
@@ -90,12 +91,10 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
     </figure>
     <div class="about-copy reveal">
       <p class="eyebrow">01 — How I see</p>
-      <h2>I notice the raindrop on the petal.</h2>
-      <p class="muted">Someone checks every page, every link and every detail. That’s my job. I’ve kept multi-brand Sitecore sites consistent at BISTEC Global, and now publish and QA websites for global clients at Acuity, covering SEO, accessibility and brand.</p>
+      <h2>{profile.about.title}</h2>
+      <p class="muted">{profile.about.text}</p>
       <dl class="stats">
-        <div><dt>2+ yrs</dt><dd>in web publishing</dd></div>
-        <div><dt>20%</dt><dd>ops efficiency gain at Cut+Dry</dd></div>
-        <div><dt>88</dt><dd>automated checks in GSTS</dd></div>
+        {profile.about.stats.map((s) => <div><dt>{s.value}</dt><dd>{s.label}</dd></div>)}
       </dl>
     </div>
   </section>
@@ -148,18 +147,33 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   <section class="wrap offclock" aria-labelledby="off-title">
     <div class="section-head reveal">
       <p class="eyebrow">04 — Off the clock</p>
-      <h2 id="off-title">Back roads, a motorbike, and chasing the light.</h2>
+      <h2 id="off-title">{profile.offClock.title}</h2>
+      <p class="muted off-text">{profile.offClock.text}</p>
     </div>
     <div class="shots">
-      <figure class="shot reveal">
-        <Picture src={sunsetRider} formats={['avif', 'webp']} widths={[480, 800]} sizes="(max-width: 900px) 100vw, 40vw" alt="Narada in silhouette beside his motorbike at sunset on a hill road" />
-        <figcaption>Sunset stop</figcaption>
-      </figure>
-      <figure class="shot shot-arch reveal">
-        <Picture src={fern} formats={['avif', 'webp']} widths={[480, 800]} sizes="(max-width: 900px) 100vw, 30vw" alt="A bright green fern growing out of moss on a tree trunk" />
-        <figcaption>Growth, from the forest floor</figcaption>
-      </figure>
+      {featured.map((p, i) => (
+        <figure class:list={['shot', 'reveal', { 'shot-arch': i === 1 }]}>
+          <Picture src={p.data.image} formats={['avif', 'webp']} widths={[480, 800]} sizes="(max-width: 760px) 100vw, 33vw" alt={p.data.alt} />
+          <figcaption>{p.data.title}</figcaption>
+        </figure>
+      ))}
     </div>
+    <div class="off-links">
+      <a class="btn btn-ghost" href={href('/photos/')}>See all photos</a>
+      {entries.length > 0 && <a class="btn btn-ghost" href={href('/journal/')}>Read the journal</a>}
+    </div>
+    {entries.length > 0 && (
+      <ol class="journal-teaser" aria-label="Latest journal entries">
+        {entries.map((e) => (
+          <li>
+            <a href={href(`/journal/${e.id}/`)}>
+              <time datetime={e.data.date.toISOString()}>{formatDate(e.data.date)}</time>
+              <strong>{e.data.title}</strong>
+            </a>
+          </li>
+        ))}
+      </ol>
+    )}
   </section>
 
   <!-- PRINCIPLES -->
@@ -323,9 +337,15 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   /* ---------- Off the clock ---------- */
   .offclock { display: flex; flex-direction: column; gap: 40px; padding-block: 120px 60px; }
   .offclock h2 { max-width: 20ch; }
-  .shots { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: end; }
-  .shot { position: relative; margin: 0; height: 540px; border-radius: 22px; overflow: hidden; transition: transform 0.6s var(--ease); }
-  .shot-arch { height: 440px; border-radius: 220px 220px 22px 22px; }
+  .off-text { max-width: 56ch; }
+  .shots { display: grid; grid-template-columns: 1.15fr 0.85fr 1fr; gap: 20px; align-items: end; }
+  .off-links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .journal-teaser { list-style: none; margin: 8px 0 0; padding: 0; border-top: 1px solid var(--wire); }
+  .journal-teaser a { display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--wire); text-decoration: none; }
+  .journal-teaser time { font-family: var(--mono); font-size: 13px; color: var(--ember); min-width: 150px; }
+  .journal-teaser strong { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; }
+  .shot { position: relative; margin: 0; height: 500px; border-radius: 22px; overflow: hidden; transition: transform 0.6s var(--ease); }
+  .shot-arch { height: 420px; border-radius: 220px 220px 22px 22px; }
   .shot :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1) brightness(0.75); transition: filter 0.7s ease, transform 1.2s var(--ease); }
   .shot:hover { transform: perspective(900px) rotateY(-5deg) rotateX(3deg) translateY(-6px); }
   .shot:hover :global(img) { filter: none; transform: scale(1.06); }

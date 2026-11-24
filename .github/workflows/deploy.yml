@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write # to commit photos after stripping location data
   pages: write
   id-token: write
 
@@ -24,6 +24,19 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+
+      - name: Strip photo metadata (GPS, camera info)
+        run: node scripts/strip-photo-metadata.mjs
+      - name: Commit cleaned photos
+        run: |
+          if [ -n "$(git status --porcelain src/assets/photos)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/assets/photos
+            git commit -m "Strip photo metadata"
+            git push
+          fi
+
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
