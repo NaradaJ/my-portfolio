@@ -73,6 +73,8 @@ content:
       - { name: jobTitle, label: Job title, type: string }
       - { name: employer, label: Employer, type: string }
       - { name: location, label: Location, type: string }
+      - { name: email, label: Contact email, type: string }
+      - { name: cv, label: CV file path, type: string, description: "Path to the CV PDF in the public folder, e.g. /Narada-Kasun-CV.pdf. Upload a new PDF with the same name to replace it." }
       - { name: seoTitle, label: Browser tab / Google title, type: string }
       - { name: seoDescription, label: Google description, type: text }
       - name: hero

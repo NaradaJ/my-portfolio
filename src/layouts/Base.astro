@@ -97,6 +97,8 @@ const nav = [
       <div class="wrap">
         <span>© {new Date().getFullYear()} {profile.name} · {profile.location.label} · Photos by Narada</span>
         <span class="footer-links">
+          <a href={`mailto:${profile.email}`}>Email</a>
+          <a href={href(profile.cv)} download>CV (PDF)</a>
           <a href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
           <a href={profile.links.github} rel="me noopener" target="_blank">GitHub</a>
         </span>

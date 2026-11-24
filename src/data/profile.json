@@ -13,11 +13,20 @@
   },
   "about": {
     "title": "I notice the raindrop on the petal.",
-    "text": "Someone checks every page, every link and every detail. That’s my job. I’ve kept multi-brand Sitecore sites consistent at BISTEC Global, and now publish and QA websites for global clients at Acuity Analytics, covering SEO, accessibility and brand.",
+    "text": "Someone checks every page, every link and every detail. That’s my job. I kept CSR Australia’s Gyprock, Bradford and Hebel sites consistent in Sitecore at BISTEC Global, and now publish and QA websites for global clients at Acuity Analytics, covering SEO, accessibility and brand.",
     "stats": [
-      { "value": "2+ yrs", "label": "in web publishing" },
-      { "value": "20%", "label": "ops efficiency gain at Cut+Dry" },
-      { "value": "88", "label": "automated checks in GSTS" }
+      {
+        "value": "Since 2024",
+        "label": "in web publishing: Sitecore at BISTEC, now Acuity Analytics"
+      },
+      {
+        "value": "3",
+        "label": "CSR brand sites kept consistent on Sitecore"
+      },
+      {
+        "value": "104",
+        "label": "automated checks passing in GSTS"
+      }
     ]
   },
   "offClock": {
@@ -25,26 +34,94 @@
     "text": "I photograph light with my phone (every image on this site is mine) and keep a journal to slow down and think things through."
   },
   "education": [
-    { "name": "University of Moratuwa", "detail": "Bachelor of Information Technology (in progress)" },
-    { "name": "University of Sri Jayewardenepura", "detail": "BSc in Chemistry, 2016–2019" }
+    {
+      "name": "University of Moratuwa",
+      "detail": "Bachelor of Information Technology (in progress)"
+    },
+    {
+      "name": "University of Sri Jayewardenepura",
+      "detail": "BSc in Chemistry, 2016–2019"
+    }
   ],
   "journey": [
-    { "when": "2016 – 2019", "title": "Chemistry", "desc": "BSc in Chemistry, University of Sri Jayewardenepura." },
-    { "when": "2021 – 2023", "title": "Teaching", "desc": "Chemistry tutor, breaking hard topics into simple steps." },
-    { "when": "2024 – 2025", "title": "The web", "desc": "Sitecore content editor and technical associate at BISTEC Global; operations at Cut+Dry." },
-    { "when": "2025 – now", "title": "Web Publisher", "desc": "Acuity Analytics: CMS, QA, SEO and accessibility for global clients." },
-    { "when": "2026 – now", "title": "Code", "desc": "BIT at the University of Moratuwa. C#, Python and real projects like GSTS." }
+    {
+      "when": "2016 – 2019",
+      "title": "Chemistry",
+      "desc": "BSc in Chemistry, University of Sri Jayewardenepura."
+    },
+    {
+      "when": "2021 – 2023",
+      "title": "Teaching",
+      "desc": "Chemistry tutor, breaking hard topics into simple steps."
+    },
+    {
+      "when": "2024 – 2025",
+      "title": "The web",
+      "desc": "Sitecore content editor for CSR Australia’s Gyprock, Bradford and Hebel sites at BISTEC Global, then operations on the Cut+Dry platform."
+    },
+    {
+      "when": "2025 – now",
+      "title": "Web Publisher",
+      "desc": "Acuity Analytics: CMS, QA, SEO and accessibility for global clients."
+    },
+    {
+      "when": "2026 – now",
+      "title": "Code",
+      "desc": "BIT at the University of Moratuwa. C#, Python and real projects like GSTS."
+    }
   ],
-  "tools": ["Sitecore", "WordPress", "Beaver Builder", "Siteimprove", "Smartling", "Adobe Workfront", "C# / .NET", "Python", "MariaDB", "JavaScript", "Figma", "Accessibility"],
-  "knowsAbout": ["Web publishing", "Content management systems", "Sitecore", "WordPress", "Website QA", "Web accessibility (WCAG)", "SEO", "Siteimprove", "C#", ".NET", "Python", "MariaDB", "JavaScript", "Mobile photography"],
+  "tools": [
+    "Sitecore",
+    "WordPress",
+    "Beaver Builder",
+    "Siteimprove",
+    "Smartling",
+    "Adobe Workfront",
+    "C# / .NET",
+    "Python",
+    "MariaDB",
+    "JavaScript",
+    "Figma",
+    "Accessibility"
+  ],
+  "knowsAbout": [
+    "Web publishing",
+    "Content management systems",
+    "Sitecore",
+    "WordPress",
+    "Website QA",
+    "Web accessibility (WCAG)",
+    "SEO",
+    "Siteimprove",
+    "C#",
+    ".NET",
+    "Python",
+    "MariaDB",
+    "JavaScript",
+    "Mobile photography"
+  ],
   "faq": [
-    { "q": "What does Narada Kasun do?", "a": "Narada is a Web Publisher at Acuity Analytics in Colombo, Sri Lanka. He publishes and quality-checks websites for global clients, covering CMS work, SEO, accessibility and brand consistency, and builds software in C# and Python." },
-    { "q": "What is his background?", "a": "He has a BSc in Chemistry from the University of Sri Jayewardenepura, taught Chemistry for over two years, and is now studying for a Bachelor of Information Technology at the University of Moratuwa." },
-    { "q": "Which tools and technologies does he use?", "a": "Sitecore, WordPress, Beaver Builder, Siteimprove, Smartling and Adobe Workfront for web publishing; C#/.NET, Python, MariaDB and JavaScript for development." },
-    { "q": "How can I contact Narada?", "a": "The quickest way is a message on LinkedIn. His code is on GitHub at github.com/NaradaJ." }
+    {
+      "q": "What does Narada Kasun do?",
+      "a": "Narada is a Web Publisher at Acuity Analytics in Colombo, Sri Lanka. He publishes and quality-checks websites for global clients, covering CMS work, SEO, accessibility and brand consistency, and builds software in C# and Python."
+    },
+    {
+      "q": "What is his background?",
+      "a": "He has a BSc in Chemistry from the University of Sri Jayewardenepura, taught Chemistry for over two years, and is now studying for a Bachelor of Information Technology at the University of Moratuwa."
+    },
+    {
+      "q": "Which tools and technologies does he use?",
+      "a": "Sitecore, WordPress, Beaver Builder, Siteimprove, Smartling and Adobe Workfront for web publishing; C#/.NET, Python, MariaDB and JavaScript for development."
+    },
+    {
+      "q": "How can I contact Narada?",
+      "a": "Email naradadenasa@gmail.com, or send a message on LinkedIn. His CV is available as a PDF on this site, and his code is on GitHub at github.com/NaradaJ."
+    }
   ],
   "links": {
     "linkedin": "https://www.linkedin.com/in/narada-kasun-27a407327",
     "github": "https://github.com/NaradaJ"
-  }
+  },
+  "email": "naradadenasa@gmail.com",
+  "cv": "/Narada-Kasun-CV.pdf"
 }

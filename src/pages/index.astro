@@ -30,6 +30,7 @@ const person = {
   alumniOf: profile.education.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.name })),
   address: { '@type': 'PostalAddress', addressLocality: profile.location.city, addressCountry: profile.location.country },
   knowsAbout: profile.knowsAbout,
+  email: `mailto:${profile.email}`,
   sameAs: [profile.links.linkedin, profile.links.github],
 };
 
@@ -43,6 +44,7 @@ const schema = [
   },
 ];
 
+const download = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"></path><path d="m7 10 5 5 5-5"></path><path d="M5 20h14"></path></svg>';
 const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>';
 ---
 <Base schema={schema} type="profile">
@@ -67,7 +69,7 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
       <p class="lede">{profile.hero.intro}</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#work">See my work <Fragment set:html={arrow} /></a>
-        <a class="btn btn-ghost" href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+        <a class="btn btn-ghost" href={href(profile.cv)} download>Download CV <span class="visually-hidden">(PDF)</span><Fragment set:html={download} /></a>
       </div>
     </div>
     <p class="hero-hint" aria-hidden="true">Move your cursor — hold the light</p>
@@ -203,9 +205,12 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
         <h2>Let’s build something careful.</h2>
         <p class="muted">Got a website that needs a careful eye, or a project to talk about? Say hello.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href={profile.links.linkedin} rel="me noopener" target="_blank">Message me on LinkedIn <Fragment set:html={arrow} /></a>
-          <a class="btn btn-ghost" href={profile.links.github} rel="me noopener" target="_blank">GitHub</a>
+          <a class="btn btn-primary" href={`mailto:${profile.email}`}>Email me <Fragment set:html={arrow} /></a>
+          <a class="btn btn-ghost" href={href(profile.cv)} download>Download CV <span class="visually-hidden">(PDF)</span><Fragment set:html={download} /></a>
+          <a class="btn btn-ghost" href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
         </div>
+        <p class="contact-email"><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+
       </div>
       <div class="orbit">
         <div class="orbit-stage">
@@ -427,6 +432,9 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
     background: radial-gradient(500px circle at 80% 50%, rgba(255, 236, 200, 0.08), transparent 60%), var(--panel);
   }
   .contact-copy { flex: 999 1 420px; display: flex; flex-direction: column; gap: 16px; }
+  .contact-email { font-family: var(--mono); font-size: 14px; }
+  .contact-email a { color: var(--fog-3); text-underline-offset: 4px; }
+  .contact-email a:hover { color: var(--light); }
   .orbit { flex: 1 1 320px; height: 420px; position: relative; perspective: 900px; }
   /* Selfie seen through "the gap": a circular aperture that widens as it scrolls into view. */
   .aperture {

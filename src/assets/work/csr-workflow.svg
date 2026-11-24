@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 300" font-family="Inter, 'Segoe UI', Arial, sans-serif" role="img" aria-labelledby="t d">
+  <title id="t">Publishing workflow across three CSR brand sites</title>
+  <desc id="d">A campaign brief becomes a page built from shared Sitecore components. Before publishing, each page is checked for responsive layout, SEO, accessibility and brand consistency, then reviewed with the UX/UI team and published to Gyprock, Bradford or Hebel.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8e96a1"/></marker>
+  </defs>
+  <rect width="1040" height="300" rx="18" fill="#0f1114"/>
+  <text x="30" y="36" font-size="13" fill="#8e96a1" letter-spacing="1.5">ONE PROCESS · THREE BRANDS</text>
+  <g font-size="14" fill="#eceef0">
+    <rect x="30" y="70" width="150" height="80" rx="12" fill="#14171c" stroke="#2a2f37"/>
+    <text x="105" y="105" text-anchor="middle">Campaign</text><text x="105" y="125" text-anchor="middle">brief</text>
+    <rect x="215" y="70" width="190" height="80" rx="12" fill="#14171c" stroke="#2a2f37"/>
+    <text x="310" y="105" text-anchor="middle">Build from shared</text><text x="310" y="125" text-anchor="middle">Sitecore components</text>
+    <rect x="440" y="58" width="230" height="104" rx="12" fill="#1c1a12" stroke="#fff6e0"/>
+    <text x="555" y="86" text-anchor="middle" font-size="13" fill="#fff6e0">Check every page</text>
+    <text x="470" y="112" font-size="13">✓ Responsive</text><text x="580" y="112" font-size="13">✓ SEO</text>
+    <text x="470" y="138" font-size="13">✓ Accessibility</text><text x="580" y="138" font-size="13">✓ Brand</text>
+    <rect x="705" y="70" width="140" height="80" rx="12" fill="#14171c" stroke="#2a2f37"/>
+    <text x="775" y="105" text-anchor="middle">Review with</text><text x="775" y="125" text-anchor="middle">UX/UI team</text>
+    <rect x="880" y="70" width="130" height="80" rx="40" fill="#1f1610" stroke="#f0883e"/>
+    <text x="945" y="115" text-anchor="middle">Publish</text>
+  </g>
+  <g stroke="#8e96a1" stroke-width="1.5" fill="none" marker-end="url(#a)">
+    <path d="M180 110 H211"/><path d="M405 110 H436"/><path d="M670 110 H701"/><path d="M845 110 H876"/>
+    <path d="M945 150 V190 H210 V212"/><path d="M945 190 V212"/><path d="M578 190 V212"/>
+  </g>
+  <g font-size="15" fill="#eceef0" text-anchor="middle">
+    <rect x="130" y="216" width="160" height="50" rx="25" fill="#14171c" stroke="#2a2f37"/><text x="210" y="246">Gyprock</text>
+    <rect x="498" y="216" width="160" height="50" rx="25" fill="#14171c" stroke="#2a2f37"/><text x="578" y="246">Bradford</text>
+    <rect x="865" y="216" width="160" height="50" rx="25" fill="#14171c" stroke="#2a2f37"/><text x="945" y="246">Hebel</text>
+  </g>
+</svg>
