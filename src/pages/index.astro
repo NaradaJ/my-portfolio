@@ -313,12 +313,33 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   .journey :global(img.journey-bg) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; z-index: -2;
     filter: grayscale(1) brightness(0.4) blur(1px); -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 75%, transparent); mask-image: linear-gradient(180deg, transparent, #000 18%, #000 75%, transparent); }
   .road { position: relative; display: flex; flex-direction: column; gap: 48px; margin: 64px 0 0; padding: 0; list-style: none; }
+  /* Sun ray: a warm beam from above, with a pulse of light travelling down it. */
+  .road { --ray-x: 50%; }
   .road::before {
-    content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; margin-left: -2px; border-radius: 2px; opacity: 0.6;
-    background: repeating-linear-gradient(180deg, rgba(236, 238, 240, 0.75) 0 46px, transparent 46px 92px);
-    animation: drive 2.4s linear infinite;
+    content: ''; position: absolute; left: var(--ray-x); top: -80px; bottom: -40px; width: 2px; margin-left: -1px; border-radius: 2px;
+    background:
+      linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.95), transparent) 0 -20% / 100% 160px no-repeat,
+      linear-gradient(180deg, rgba(255, 250, 235, 0.95), rgba(255, 236, 200, 0.6) 35%, rgba(240, 136, 62, 0.3) 80%, transparent);
+    box-shadow: 0 0 10px 1px rgba(255, 236, 200, 0.45), 0 0 36px 6px rgba(255, 236, 200, 0.12);
+    transform-origin: top;
+    animation: photon 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
-  @keyframes drive { to { background-position: 0 92px; } }
+  .road::after {
+    content: ''; position: absolute; left: var(--ray-x); top: -80px; bottom: 0; width: 220px; margin-left: -110px; z-index: -1; pointer-events: none;
+    background: radial-gradient(ellipse 50% 85% at 50% 0%, rgba(255, 236, 200, 0.14), rgba(240, 136, 62, 0.04) 55%, transparent 75%);
+    filter: blur(6px);
+    animation: shimmer 6s ease-in-out infinite;
+  }
+  @keyframes photon { from { background-position: 0 -20%, 0 0; } to { background-position: 0 120%, 0 0; } }
+  @keyframes shimmer { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+  @supports (animation-timeline: view()) {
+    .road::before {
+      animation: photon 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite, ray-grow linear both;
+      animation-timeline: auto, view();
+      animation-range: normal, entry 0% cover 55%;
+    }
+    @keyframes ray-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  }
   .road li { position: relative; display: grid; grid-template-columns: 1fr 80px 1fr; align-items: center; }
   .road-dot { grid-column: 2; grid-row: 1; justify-self: center; width: 18px; height: 18px; border-radius: 50%; background: var(--light); box-shadow: 0 0 22px 6px rgba(255, 236, 200, 0.45); }
   .road-card { grid-row: 1; display: flex; flex-direction: column; gap: 6px; max-width: 380px; padding: 24px 26px; border-radius: 16px; background: rgba(15, 17, 20, 0.85); border: 1px solid var(--wire); backdrop-filter: blur(6px); }
@@ -328,7 +349,7 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   .road-card strong { font-size: 1.2rem; }
   .road-card .muted { font-size: 15px; line-height: 1.6; }
   @media (max-width: 760px) {
-    .road::before { left: 9px; }
+    .road { --ray-x: 9px; }
     .road li { grid-template-columns: 18px 1fr; gap: 20px; }
     .road-dot { grid-column: 1; }
     .road li:nth-child(odd) .road-card, .road li:nth-child(even) .road-card { grid-column: 2; justify-self: stretch; }
