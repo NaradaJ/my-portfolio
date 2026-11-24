@@ -8,7 +8,9 @@
   * { box-sizing: border-box; }
   body { margin: 0; font-family: 'Liberation Sans', Arial, Helvetica, sans-serif; font-size: 9.6pt; line-height: 1.45; color: #1a1d22; }
   a { color: inherit; text-decoration: none; }
-  header { border-bottom: 2px solid #f0883e; padding-bottom: 10px; margin-bottom: 12px; }
+  header { display: flex; align-items: center; gap: 18px; border-bottom: 2px solid #f0883e; padding-bottom: 12px; margin-bottom: 12px; }
+  .head-text { flex: 1 1 auto; min-width: 0; }
+  .photo { flex: none; width: 30mm; height: 30mm; border-radius: 50%; object-fit: cover; border: 2px solid #f0883e; }
   h1 { font-family: 'Liberation Serif', Georgia, 'Times New Roman', serif; font-size: 25pt; font-weight: 700; letter-spacing: -0.01em; margin: 0; line-height: 1.05; }
   .role { font-size: 11pt; color: #3a4049; margin: 4px 0 6px; }
   .contact { font-size: 8.8pt; color: #3a4049; display: flex; flex-wrap: wrap; gap: 2px 14px; }
@@ -31,6 +33,7 @@
 </head>
 <body>
 <header>
+  <div class="head-text">
   <h1>Narada Kasun</h1>
   <p class="role">Web Publisher · Website QA &amp; Accessibility · Developer (C#, Python)</p>
   <p class="contact">
@@ -40,10 +43,12 @@
     <a href="https://www.linkedin.com/in/narada-kasun-27a407327">linkedin.com/in/narada-kasun-27a407327</a>
     <a href="https://github.com/NaradaJ">github.com/NaradaJ</a>
   </p>
+  </div>
+  <img class="photo" src="photo.jpg" alt="Narada Kasun">
 </header>
 
 <h2>Profile</h2>
-<p>Web Publisher at Acuity Analytics who keeps global client websites accurate, accessible and launch-ready. Experienced with Sitecore and WordPress publishing, pre-launch QA, SEO and accessibility, after managing CSR Australia’s Gyprock, Bradford and Hebel sites in Sitecore. BSc from the University of Sri Jayewardenepura (Chemistry, Physics, Polymer Science); now studying for a BIT at the University of Moratuwa and building software in C# and Python.</p>
+<p>Web Publisher at Acuity Analytics who keeps global client websites accurate, accessible and launch-ready. Experienced with Sitecore and WordPress publishing, pre-launch QA, SEO and accessibility, after managing CSR Australia’s Gyprock, Bradford and Hebel sites in Sitecore. BSc (Chemistry, Physics, Polymer Science &amp; Technology) from the University of Sri Jayewardenepura; now studying for a BIT at the University of Moratuwa and building software in C# and Python.</p>
 
 <h2>Experience</h2>
 <div class="job">
@@ -71,10 +76,11 @@
   </ul>
 </div>
 <div class="job">
-  <div class="job-head"><span><span class="job-title">Chemistry Tutor &amp; Academic Writer</span> · <span class="org">Freelance, remote</span></span><span class="dates">Jan 2021 – Jul 2023</span></div>
+  <div class="job-head"><span><span class="job-title">Chemistry Tutor</span> · <span class="org">Freelance, online</span></span><span class="dates">Jan 2021 – Jul 2023</span></div>
   <ul>
-    <li>Taught Chemistry one-to-one and in small groups online, breaking difficult topics into simple steps and tracking each student’s progress.</li>
-    <li>Wrote well-researched, original academic content for international clients, following APA and MLA standards.</li>
+    <li>Taught Chemistry one-to-one and in small groups online.</li>
+    <li>Prepared lesson plans, notes and practice questions tailored to each student.</li>
+    <li>Helped students prepare for exams by breaking difficult topics into simple steps, and adjusted teaching to each student’s pace.</li>
   </ul>
 </div>
 
