@@ -57,5 +57,24 @@ function initTilt() {
   });
 }
 
+/* Sand: the About photo settles from scattered grains when it scrolls into view. */
+function initSand() {
+  const fig = document.querySelector<HTMLElement>('[data-sand]');
+  const anim = document.querySelector<SVGAnimateElement>('#sand animate');
+  if (!fig || !anim || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  fig.classList.add('sand-wait');
+  const io = new IntersectionObserver((entries) => {
+    if (!entries.some((e) => e.isIntersecting)) return;
+    io.disconnect();
+    fig.classList.remove('sand-wait');
+    fig.classList.add('sanding');
+    anim.beginElement();
+    // Drop the filter once settled so the photo stays crisp and cheap to render.
+    window.setTimeout(() => fig.classList.remove('sanding'), 2600);
+  }, { threshold: 0.35 });
+  io.observe(fig);
+}
+
 initHero();
 initTilt();
+initSand();
