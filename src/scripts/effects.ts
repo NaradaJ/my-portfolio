@@ -57,29 +57,26 @@ function initTilt() {
   });
 }
 
-/* Sand: the About photo settles from scattered grains every time it scrolls into view. */
-function initSand() {
-  const fig = document.querySelector<HTMLElement>('[data-sand]');
-  const anim = document.querySelector<SVGAnimateElement>('#sand animate');
-  if (!fig || !anim || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+/* Raindrops: the About photo is uncovered by landing drops every time it scrolls into view. */
+function initRain() {
+  const fig = document.querySelector<HTMLElement>('[data-rain]');
+  if (!fig || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
 
-  let settle = 0;
+  let done = 0;
   const play = () => {
-    window.clearTimeout(settle);
-    fig.classList.remove('sanding', 'sand-wait');
-    void fig.offsetWidth; // restart the CSS fade
-    fig.classList.add('sanding');
-    anim.beginElement();
-    // Drop the filter once settled so the photo stays crisp and cheap to render.
-    settle = window.setTimeout(() => fig.classList.remove('sanding'), 2600);
+    window.clearTimeout(done);
+    fig.classList.remove('raining', 'rain-wait');
+    void fig.offsetWidth; // restart the animations
+    fig.classList.add('raining');
+    done = window.setTimeout(() => fig.classList.remove('raining'), 4200);
   };
   const reset = () => {
-    window.clearTimeout(settle);
-    fig.classList.remove('sanding');
-    fig.classList.add('sand-wait');
+    window.clearTimeout(done);
+    fig.classList.remove('raining');
+    fig.classList.add('rain-wait');
   };
 
-  fig.classList.add('sand-wait');
+  fig.classList.add('rain-wait');
   new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
@@ -93,4 +90,4 @@ function initSand() {
 
 initHero();
 initTilt();
-initSand();
+initRain();
