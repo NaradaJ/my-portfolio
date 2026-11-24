@@ -57,37 +57,5 @@ function initTilt() {
   });
 }
 
-/* Raindrops: the About photo is uncovered by landing drops every time it scrolls into view. */
-function initRain() {
-  const fig = document.querySelector<HTMLElement>('[data-rain]');
-  if (!fig || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-
-  let done = 0;
-  const play = () => {
-    window.clearTimeout(done);
-    fig.classList.remove('raining', 'rain-wait');
-    void fig.offsetWidth; // restart the animations
-    fig.classList.add('raining');
-    done = window.setTimeout(() => fig.classList.remove('raining'), 4200);
-  };
-  const reset = () => {
-    window.clearTimeout(done);
-    fig.classList.remove('raining');
-    fig.classList.add('rain-wait');
-  };
-
-  fig.classList.add('rain-wait');
-  new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.intersectionRatio >= 0.35) play();
-        else if (!e.isIntersecting) reset(); // fully out of view: ready to replay
-      }
-    },
-    { threshold: [0, 0.35] },
-  ).observe(fig);
-}
-
 initHero();
 initTilt();
-initRain();
