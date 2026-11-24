@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# Narada Kasun — Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal portfolio built with [Astro](https://astro.build). Design direction: **Light through the gap**. It's near-monochrome, built from my own photography, with one source of light.
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+```bash
+npm install
+npm run dev
+```
 
-### `npm start`
+Open http://localhost:4321/my-portfolio/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Edit content
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| What | Where |
+|---|---|
+| Name, bio, links, tools, career, FAQ | `src/data/site.ts` |
+| Case studies | `src/content/work/*.md` (one file per project) |
+| Photos | `src/assets/photos/` (Astro outputs AVIF/WebP automatically) |
+| Colours, fonts, global styles | `src/styles/global.css` |
 
-### `npm test`
+To add a project, copy a file in `src/content/work/`, change the front matter and text, and push.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Deploy
 
-### `npm run build`
+Every push to `master` builds and deploys to GitHub Pages through `.github/workflows/deploy.yml`.
+One-time setup: **Settings → Pages → Source: GitHub Actions**.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Custom domain:** set `SITE_URL=https://yourdomain.com` and `BASE_PATH=/` in the workflow's build step, then add the domain under Settings → Pages.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Built in
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **SEO:** canonical URLs, Open Graph/Twitter cards, `sitemap-index.xml`, `robots.txt`
+- **AEO:** JSON-LD (`Person`, `ProfilePage`, `WebSite`, `FAQPage`, `SoftwareSourceCode`, `BreadcrumbList`), `/llms.txt`, short question-and-answer content
+- **Accessibility:** semantic landmarks, skip link, visible focus, alt text, WCAG AA contrast, `prefers-reduced-motion` support
+- **Performance:** no framework JavaScript (one small effects script), responsive AVIF/WebP images, self-hosted fonts
+- **Effects:** cursor "hold the light" reveal, breathing light, drawn power lines, iris reveal, scroll-driven reveals, 3D card tilt, photo-masked text, 3D orbit. All are CSS-first and turn off when the visitor prefers reduced motion.

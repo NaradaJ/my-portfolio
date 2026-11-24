@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../data/site';
+---
+<Base title="Page not found" description="This page doesn’t exist." solidHeader>
+  <section class="wrap lost">
+    <p class="eyebrow">404 · Missed a detail</p>
+    <h1>This road doesn’t go anywhere.</h1>
+    <p class="lede">The page you’re looking for has moved or never existed. Even careful checkers take a wrong turn sometimes.</p>
+    <a class="btn btn-primary" href={href('/')}>Back to the start</a>
+  </section>
+</Base>
+
+<style>
+  .lost { min-height: 70svh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 22px; padding-block: 80px; }
+  .lost h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1.02; max-width: 14ch; }
+</style>

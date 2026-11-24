@@ -1,0 +1,385 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { profile, journey, faq, href } from '../data/site';
+
+import handLight from '../assets/photos/hand-light.jpg';
+import jasmine from '../assets/photos/jasmine.jpg';
+import nightRoad from '../assets/photos/night-road.jpg';
+import sunsetRider from '../assets/photos/sunset-rider.jpg';
+import fern from '../assets/photos/fern.jpg';
+import roadSun from '../assets/photos/road-sun.jpg';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const roadTexture = await getImage({ src: roadSun, width: 1400, format: 'webp' });
+const site = Astro.site!;
+const homeUrl = new URL(href('/'), site).href;
+
+const person = {
+  '@type': 'Person',
+  '@id': `${homeUrl}#person`,
+  name: profile.name,
+  url: homeUrl,
+  image: new URL(href('/og.jpg'), site).href,
+  jobTitle: profile.jobTitle,
+  description: profile.description,
+  worksFor: { '@type': 'Organization', name: profile.employer.name, url: profile.employer.url },
+  alumniOf: profile.education.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.name })),
+  address: { '@type': 'PostalAddress', addressLocality: profile.location.city, addressCountry: profile.location.country },
+  knowsAbout: profile.knowsAbout,
+  sameAs: [profile.links.linkedin, profile.links.github],
+};
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${homeUrl}#website`, url: homeUrl, name: profile.name, inLanguage: 'en' },
+  { '@context': 'https://schema.org', '@type': 'ProfilePage', url: homeUrl, name: profile.title, mainEntity: person },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+
+const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>';
+---
+<Base schema={schema} type="profile">
+  <!-- HERO -->
+  <section class="hero" data-hero aria-labelledby="hero-title">
+    <div class="hero-media" aria-hidden="true">
+      <Picture src={handLight} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 900px) 100vw, 50vw" alt="" loading="eager" fetchpriority="high" />
+      <span class="hero-streak"></span>
+      <span class="orb" data-orb></span>
+    </div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <svg class="hero-wires" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M-20 250 Q 700 380 1460 170" />
+      <path d="M-20 290 Q 720 430 1460 215" />
+      <path d="M-20 335 Q 740 480 1460 262" />
+    </svg>
+    <svg class="grain" aria-hidden="true"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /></filter><rect width="100%" height="100%" filter="url(#grain)" /></svg>
+
+    <div class="wrap hero-copy">
+      <p class="hero-kicker"><span aria-hidden="true"></span>Web publisher · QA · Accessibility · Code</p>
+      <h1 id="hero-title">Good websites don’t happen by <em class="glow">accident.</em></h1>
+      <p class="lede">I’m Narada, a Web Publisher at Acuity Knowledge Partners and a BIT undergraduate at the University of Moratuwa. I check every page, link and detail, and I’m growing from content into code.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#work">See my work <Fragment set:html={arrow} /></a>
+        <a class="btn btn-ghost" href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <p class="hero-hint" aria-hidden="true">Move your cursor — hold the light</p>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="tools" aria-label="Tools I use">
+    <div class="marquee">
+      <ul class="track">
+        {[...profile.tools, ...profile.tools].map((t, i) => (
+          <li aria-hidden={i >= profile.tools.length ? 'true' : undefined}>{t}<span aria-hidden="true"></span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="wrap about">
+    <figure class="iris">
+      <Picture src={jasmine} formats={['avif', 'webp']} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt="A single white jasmine flower with raindrops on its petals" />
+      <figcaption>Jasmine after rain</figcaption>
+    </figure>
+    <div class="about-copy reveal">
+      <p class="eyebrow">01 — How I see</p>
+      <h2>I notice the raindrop on the petal.</h2>
+      <p class="muted">Someone checks every page, every link and every detail. That’s my job. I’ve kept multi-brand Sitecore sites consistent at BISTEC Global, and now publish and QA websites for global clients at Acuity, covering SEO, accessibility and brand.</p>
+      <dl class="stats">
+        <div><dt>2+ yrs</dt><dd>in web publishing</dd></div>
+        <div><dt>20%</dt><dd>ops efficiency gain at Cut+Dry</dd></div>
+        <div><dt>88</dt><dd>automated checks in GSTS</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="wrap work">
+    <div class="section-head reveal">
+      <p class="eyebrow">02 — Selected work</p>
+      <h2>Built, tested, shipped.</h2>
+    </div>
+    <div class="cards">
+      {work.map((w) => (
+        <a class="card reveal" data-tilt href={href(`/work/${w.id}/`)}>
+          <span class="card-ticket">{w.data.ticket} · {w.data.kind}</span>
+          <h3>{w.data.title}</h3>
+          <p class="muted">{w.data.summary}</p>
+          <span class="card-foot">
+            <span>{w.data.stack.slice(0, 3).join(' · ')}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7" /><path d="M8 7h9v9" /></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey" class="journey" aria-labelledby="journey-title">
+    <Picture class="journey-bg" src={nightRoad} formats={['avif', 'webp']} widths={[600]} alt="" />
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="eyebrow">03 — The road so far</p>
+        <h2 id="journey-title">From science to code</h2>
+      </div>
+      <ol class="road">
+        {journey.map((j) => (
+          <li class="reveal">
+            <span class="road-dot" aria-hidden="true"></span>
+            <div class="road-card">
+              <span class="road-when">{j.when}</span>
+              <strong>{j.title}</strong>
+              <span class="muted">{j.desc}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- OFF THE CLOCK -->
+  <section class="wrap offclock" aria-labelledby="off-title">
+    <div class="section-head reveal">
+      <p class="eyebrow">04 — Off the clock</p>
+      <h2 id="off-title">Back roads, a motorbike, and chasing the light.</h2>
+    </div>
+    <div class="shots">
+      <figure class="shot reveal">
+        <Picture src={sunsetRider} formats={['avif', 'webp']} widths={[480, 800]} sizes="(max-width: 900px) 100vw, 40vw" alt="Narada in silhouette beside his motorbike at sunset on a hill road" />
+        <figcaption>Sunset stop</figcaption>
+      </figure>
+      <figure class="shot shot-arch reveal">
+        <Picture src={fern} formats={['avif', 'webp']} widths={[480, 800]} sizes="(max-width: 900px) 100vw, 30vw" alt="A bright green fern growing out of moss on a tree trunk" />
+        <figcaption>Growth, from the forest floor</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section class="wrap principles" aria-label="Principles">
+    <p class="cutout" style={`background-image:url(${roadTexture.src})`} aria-hidden="true">Detail.</p>
+    <p class="fill-text">Check everything. Explain simply. Leave it better than I found it.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap faq" aria-labelledby="faq-title">
+    <h2 id="faq-title" class="eyebrow">Quick answers</h2>
+    {faq.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p class="muted">{f.a}</p>
+      </details>
+    ))}
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="wrap contact-wrap">
+    <div class="contact reveal">
+      <div class="contact-copy">
+        <h2>Let’s build something careful.</h2>
+        <p class="muted">Got a website that needs a careful eye, or a project to talk about? Say hello.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href={profile.links.linkedin} rel="me noopener" target="_blank">Message me on LinkedIn <Fragment set:html={arrow} /></a>
+          <a class="btn btn-ghost" href={profile.links.github} rel="me noopener" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <div class="orbit" aria-hidden="true">
+        <div class="orbit-stage">
+          <span class="ring ring3"></span>
+          <span class="ring ring2"></span>
+          <span class="ring ring1"></span>
+        </div>
+        <span class="orb orbit-orb"></span>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero { position: relative; min-height: max(640px, 100svh); display: flex; align-items: center; isolation: isolate; overflow: hidden; --lx: 77%; --ly: 45%; }
+  .hero-media {
+    position: absolute; top: 0; right: 0; height: 100%; aspect-ratio: 3 / 4; z-index: -3;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 38%);
+  }
+  .hero-media :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15); }
+  .hero-media .orb { left: 56%; top: 44%; }
+  .hero-streak {
+    position: absolute; left: 56%; top: 44%; width: 2px; height: 60%;
+    transform: translate(-50%, -50%) rotate(14deg);
+    background: linear-gradient(180deg, transparent, rgba(255, 246, 224, 0.55), transparent);
+    filter: blur(1px); animation: flare 6s ease-in-out infinite;
+  }
+  @keyframes flare { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.8; } }
+  .hero-shade {
+    position: absolute; inset: 0; z-index: -2;
+    background:
+      radial-gradient(180px circle at var(--lx) var(--ly), rgba(255, 236, 200, 0.12), transparent 70%),
+      radial-gradient(320px circle at var(--lx) var(--ly), rgba(7, 8, 10, 0) 0%, rgba(7, 8, 10, 0.45) 45%, rgba(7, 8, 10, 0.9) 80%);
+  }
+  .hero-wires { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+  .hero-wires path { fill: none; stroke: rgba(236, 238, 240, 0.2); stroke-width: 1.2; stroke-dasharray: 1600; stroke-dashoffset: 1600; animation: wire 3.2s cubic-bezier(0.6, 0, 0.2, 1) forwards; }
+  .hero-wires path:nth-child(2) { stroke: rgba(236, 238, 240, 0.14); animation-delay: 0.25s; }
+  .hero-wires path:nth-child(3) { stroke: rgba(236, 238, 240, 0.1); animation-delay: 0.5s; }
+  @keyframes wire { to { stroke-dashoffset: 0; } }
+  .hero-copy { width: 100%; display: flex; flex-direction: column; gap: 26px; padding-block: 120px 80px; }
+  .hero-kicker { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fog); }
+  .hero-kicker span { width: 40px; height: 1px; background: var(--fog); }
+  .hero h1 { max-width: 11ch; font-size: clamp(3rem, 6.2vw, 5.6rem); line-height: 1; letter-spacing: -0.025em; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
+  .hero-hint { position: absolute; left: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter))); bottom: 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
+  @media (pointer: coarse) { .hero-hint { display: none; } }
+  @media (max-width: 900px) {
+    .hero { flex-direction: column; align-items: stretch; min-height: auto; }
+    .hero-media {
+      position: relative; width: min(100%, 560px); height: auto; margin-left: auto;
+      -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+      mask-image: linear-gradient(180deg, #000 55%, transparent);
+    }
+    .hero-copy { margin-top: -28vw; padding-block: 0 64px; }
+    .hero-wires { height: calc(min(100vw, 560px) * 4 / 3); }
+    .hero-kicker span { display: none; }
+    .hero-hint { display: none; }
+  }
+
+  /* ---------- Tools marquee ---------- */
+  .tools { border-block: 1px solid var(--wire); padding: 26px 0; }
+  .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .track { display: flex; gap: 40px; width: max-content; margin: 0; padding: 0; list-style: none; animation: slide 45s linear infinite; }
+  .marquee:hover .track { animation-play-state: paused; }
+  .track li { display: inline-flex; align-items: center; gap: 40px; font-family: var(--serif); font-size: 26px; color: var(--dim); white-space: nowrap; }
+  .track li span { width: 6px; height: 6px; border-radius: 50%; background: var(--ember); }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ---------- About ---------- */
+  .about { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(40px, 6vw, 72px); align-items: center; padding-block: 120px 80px; scroll-margin-top: 40px; }
+  .iris { position: relative; margin: 0; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--asphalt); }
+  .iris :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15); }
+  .iris figcaption, .shot figcaption { position: absolute; left: 18px; bottom: 16px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(7, 8, 10, 0.65); padding: 6px 10px; border-radius: 6px; }
+  .about-copy { display: flex; flex-direction: column; gap: 22px; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 8px 0 0; padding-top: 18px; border-top: 1px solid var(--wire); }
+  .stats dt { font-family: var(--serif); font-size: 1.9rem; font-weight: 600; }
+  .stats dd { margin: 0; font-size: 13px; line-height: 1.45; color: var(--fog); }
+  @supports (animation-timeline: view()) {
+    .iris { animation: iris linear both; animation-timeline: view(); animation-range: entry 10% cover 50%; }
+    @keyframes iris { from { clip-path: circle(8% at 50% 46%); } to { clip-path: circle(75% at 50% 46%); } }
+  }
+
+  /* ---------- Work ---------- */
+  .work { display: flex; flex-direction: column; gap: 40px; padding-block: 80px 120px; scroll-margin-top: 40px; }
+  .section-head { display: flex; flex-direction: column; gap: 12px; }
+  .section-head.center { align-items: center; text-align: center; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px; }
+  .card {
+    --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 0%;
+    display: flex; flex-direction: column; gap: 14px; min-height: 320px; padding: 30px; border-radius: var(--radius);
+    border: 1px solid var(--wire); text-decoration: none;
+    background: radial-gradient(420px circle at var(--mx) var(--my), rgba(255, 236, 200, 0.1), transparent 45%), var(--asphalt);
+    transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d;
+    transition: transform 0.25s ease-out, border-color 0.3s, box-shadow 0.3s;
+  }
+  .card:hover, .card:focus-visible { border-color: rgba(255, 246, 224, 0.35); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7); }
+  .card h3, .card-ticket { transform: translateZ(36px); }
+  .card-ticket { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--dim); }
+  .card p { flex-grow: 1; font-size: 15px; }
+  .card-foot { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid var(--wire); font-family: var(--mono); font-size: 12px; color: var(--fog-3); }
+  .card-foot svg { width: 20px; height: 20px; color: var(--ember); transition: transform 0.3s var(--ease); }
+  .card:hover .card-foot svg { transform: translate(3px, -3px); }
+
+  /* ---------- Journey ---------- */
+  .journey { position: relative; padding: 120px 0 140px; isolation: isolate; scroll-margin-top: 0; }
+  .journey :global(img.journey-bg) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; z-index: -2;
+    filter: grayscale(1) brightness(0.4) blur(1px); -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 75%, transparent); mask-image: linear-gradient(180deg, transparent, #000 18%, #000 75%, transparent); }
+  .road { position: relative; display: flex; flex-direction: column; gap: 48px; margin: 64px 0 0; padding: 0; list-style: none; }
+  .road::before {
+    content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; margin-left: -2px; border-radius: 2px; opacity: 0.6;
+    background: repeating-linear-gradient(180deg, rgba(236, 238, 240, 0.75) 0 46px, transparent 46px 92px);
+    animation: drive 2.4s linear infinite;
+  }
+  @keyframes drive { to { background-position: 0 92px; } }
+  .road li { position: relative; display: grid; grid-template-columns: 1fr 80px 1fr; align-items: center; }
+  .road-dot { grid-column: 2; grid-row: 1; justify-self: center; width: 18px; height: 18px; border-radius: 50%; background: var(--light); box-shadow: 0 0 22px 6px rgba(255, 236, 200, 0.45); }
+  .road-card { grid-row: 1; display: flex; flex-direction: column; gap: 6px; max-width: 380px; padding: 24px 26px; border-radius: 16px; background: rgba(15, 17, 20, 0.85); border: 1px solid var(--wire); backdrop-filter: blur(6px); }
+  .road li:nth-child(odd) .road-card { grid-column: 1; justify-self: end; }
+  .road li:nth-child(even) .road-card { grid-column: 3; justify-self: start; }
+  .road-when { font-family: var(--mono); font-size: 13px; color: var(--ember); }
+  .road-card strong { font-size: 1.2rem; }
+  .road-card .muted { font-size: 15px; line-height: 1.6; }
+  @media (max-width: 760px) {
+    .road::before { left: 9px; }
+    .road li { grid-template-columns: 18px 1fr; gap: 20px; }
+    .road-dot { grid-column: 1; }
+    .road li:nth-child(odd) .road-card, .road li:nth-child(even) .road-card { grid-column: 2; justify-self: stretch; }
+  }
+
+  /* ---------- Off the clock ---------- */
+  .offclock { display: flex; flex-direction: column; gap: 40px; padding-block: 120px 60px; }
+  .offclock h2 { max-width: 20ch; }
+  .shots { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: end; }
+  .shot { position: relative; margin: 0; height: 540px; border-radius: 22px; overflow: hidden; transition: transform 0.6s var(--ease); }
+  .shot-arch { height: 440px; border-radius: 220px 220px 22px 22px; }
+  .shot :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1) brightness(0.75); transition: filter 0.7s ease, transform 1.2s var(--ease); }
+  .shot:hover { transform: perspective(900px) rotateY(-5deg) rotateX(3deg) translateY(-6px); }
+  .shot:hover :global(img) { filter: none; transform: scale(1.06); }
+  @media (max-width: 760px) {
+    .shots { grid-template-columns: 1fr; }
+    .shot, .shot-arch { height: 420px; }
+  }
+  @media (pointer: coarse) { .shot :global(img) { filter: grayscale(0.4) brightness(0.85); } }
+
+  /* ---------- Principles ---------- */
+  .principles { padding-block: 80px 40px; }
+  .cutout {
+    font-family: var(--serif); font-weight: 600; font-size: clamp(5rem, 16vw, 14rem); line-height: 0.9; letter-spacing: -0.04em;
+    background-size: 120% auto; background-position: 50% 20%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: contrast(1.4) brightness(1.35);
+  }
+  .fill-text {
+    margin-top: 28px; max-width: 24ch; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.15;
+    background: linear-gradient(90deg, var(--moon) 50%, rgba(236, 238, 240, 0.14) 50%); background-size: 200% 100%; background-position: 0 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  @supports (animation-timeline: view()) {
+    .cutout { animation: pan linear both; animation-timeline: view(); }
+    @keyframes pan { from { background-position: 20% 0%; } to { background-position: 80% 60%; } }
+    .fill-text { animation: fillx linear both; animation-timeline: view(); animation-range: entry 20% cover 55%; }
+    @keyframes fillx { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq { padding-block: 80px 20px; max-width: 860px; margin-inline: auto; }
+  .faq h2 { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.12em; margin-bottom: 16px; }
+  .faq details { border-bottom: 1px solid var(--wire); }
+  .faq summary { cursor: pointer; padding: 20px 0; font-family: var(--serif); font-size: 1.35rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; color: var(--ember); font-family: var(--sans); transition: transform 0.3s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { padding-bottom: 22px; max-width: 64ch; }
+
+  /* ---------- Contact ---------- */
+  .contact-wrap { padding-block: 100px 140px; scroll-margin-top: 40px; }
+  .contact {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 48px; padding: clamp(40px, 6vw, 72px) clamp(24px, 5vw, 56px);
+    border-radius: 28px; border: 1px solid var(--wire); overflow: hidden;
+    background: radial-gradient(500px circle at 80% 50%, rgba(255, 236, 200, 0.08), transparent 60%), var(--panel);
+  }
+  .contact-copy { flex: 999 1 420px; display: flex; flex-direction: column; gap: 16px; }
+  .orbit { flex: 1 1 300px; height: 340px; position: relative; perspective: 900px; }
+  .orbit-stage { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .orbit-orb { left: 50%; top: 50%; width: 40px; height: 40px; mix-blend-mode: normal; z-index: 1; }
+  .ring { position: absolute; left: 50%; top: 50%; border-radius: 50%; border: 1px solid rgba(255, 246, 224, 0.28); }
+  .ring1 { width: 220px; height: 220px; margin: -110px 0 0 -110px; animation: orbit1 14s linear infinite; }
+  .ring2 { width: 300px; height: 300px; margin: -150px 0 0 -150px; border-color: rgba(240, 136, 62, 0.35); animation: orbit2 20s linear infinite; }
+  .ring3 { width: 380px; height: 380px; margin: -190px 0 0 -190px; border-style: dashed; border-color: rgba(236, 238, 240, 0.12); animation: orbit1 30s linear infinite reverse; }
+  @keyframes orbit1 { from { transform: rotateX(72deg) rotateZ(0); } to { transform: rotateX(72deg) rotateZ(360deg); } }
+  @keyframes orbit2 { from { transform: rotateX(64deg) rotateY(14deg) rotateZ(0); } to { transform: rotateX(64deg) rotateY(14deg) rotateZ(-360deg); } }
+  @media (max-width: 600px) { .orbit { height: 260px; transform: scale(0.75); } }
+</style>
